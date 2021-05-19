@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTalkTable extends Migration
+class CreateTalksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateTalkTable extends Migration
      */
     public function up()
     {
-        Schema::create('talk', function (Blueprint $table) {
+        Schema::create('talks', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('ИД');
-            $table->integer('id_master')->default(0)->comment('ИД текущего юзера');
-            $table->integer('id_user')->default(0)->comment('ИД юзера для переговоров');
+
+            $table->foreignId('master_id')->default(0)->comment('ИД текущего юзера')->onDelete('cascade')->constrained('users');
+            $table->foreignId('user_id')  ->default(0)->comment('ИД юзера для переговоров')->constrained('users');
+            
             $table->text('mess')->nullable()->comment('Сообщение');
             $table->timestamps();
         });
@@ -29,6 +31,6 @@ class CreateTalkTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('talk');
+        Schema::dropIfExists('talks');
     }
 }

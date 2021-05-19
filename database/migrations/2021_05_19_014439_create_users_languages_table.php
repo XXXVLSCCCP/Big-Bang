@@ -15,8 +15,8 @@ class CreateUsersLanguagesTable extends Migration
     {
         Schema::create('users_languages', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('ИД');
-            $table->integer('id_user')->default(0)->comment('ИД юзера');
-            $table->integer('id_language')->default(0)->comment('ИД язык');
+            $table->foreignId('user_id')->default(0)->comment('ИД юзера')->onDelete('cascade')->constrained('users');
+            $table->foreignId('language_id')->default(0)->comment('ИД язык')->constrained('languages');
             
         });
     }

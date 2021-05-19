@@ -15,9 +15,9 @@ class CreateSelectedUsersTable extends Migration
     {
         Schema::create('selected_users', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('ИД');
-            $table->integer('id_master')->default(0)->comment('ИД текущего юзера');
-            $table->integer('id_user')->default(0)->comment('ИД юзера для переговоров');
-            $table->integer('id_status')->default(0)->comment('ИД статуса переговоров');
+            $table->foreignId('master_id')->default(0)->comment('ИД текущего юзера')->onDelete('cascade')->constrained('users');
+            $table->foreignId('user_id')  ->default(0)->comment('ИД юзера для переговоров')->constrained('users');
+            $table->foreignId('status_id')->default(0)->comment('ИД статуса для переговоров')->constrained('select_status');
             $table->timestamps();
         });
     }

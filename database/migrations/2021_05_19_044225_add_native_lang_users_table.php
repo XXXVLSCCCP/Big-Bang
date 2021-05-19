@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCountriesTable extends Migration
+class AddNativeLangUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateCountriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('ИД');
-            $table->string('name', 60)->nullable()->comment('Название');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('language_id')->default(0)->comment('ИД родной язык')->constrained('languages');
         });
     }
 
@@ -27,6 +25,8 @@ class CreateCountriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        Schema::table('users', function (Blueprint $table) {
+           $table->dropForeign('users_language_id_foreign');
+        });
     }
 }
