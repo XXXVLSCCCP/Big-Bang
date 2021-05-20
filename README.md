@@ -26,9 +26,9 @@
     PS: react и фронтенд в папке resources, на файлы с именем bootstrap не обращайте внимания - это не всем известная
     библиотека, а часть laravel 
 
-
-
-
+    Установка аутентификации
+    composer require laravel/breeze --dev
+    php artisan breeze:install
 
 
 
