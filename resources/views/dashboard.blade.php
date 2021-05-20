@@ -10,6 +10,28 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     You're logged in!
+					
+                    @php
+                      $isAdm=false;
+                      if(Auth::check()){
+                        $user=Auth::user();
+                        if($user->role==1){ 
+                         $isAdm=true; }                     
+                        //dd($user);
+                        }
+                    @endphp
+                    
+                   
+                    @if($isAdm)
+               
+                    <a href="admin">Аdmin страница</a>
+                    
+                    @endif	
+
+                    <a href="talks">Общение</a>
+                    <a href="findpar">Поиск партнера</a>
+					<a href="mprofile">Мой профиль</a>
+					
                 </div>
             </div>
         </div>

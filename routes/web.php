@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/admin', ['uses'=>'Admin\IndexController@index', 'as'=>'admin' ] )->middleware('auth');
+Route::get('/mprofile', ['uses'=>'ProfileController@showProfile', 'as'=>'mprofile' ] )->middleware('auth');
+Route::get('/talks', ['uses'=>'TalksController@index', 'as'=>'talks' ] )->middleware('auth');
+Route::get('/findpar', ['uses'=>'FindPartnerController@index', 'as'=>'findpar' ] )->middleware('auth');
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,3 +28,4 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
