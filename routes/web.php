@@ -18,6 +18,7 @@ Route::get('/mprofile', ['uses'=>'ProfileController@showProfile', 'as'=>'mprofil
 Route::get('/talks', ['uses'=>'TalksController@index', 'as'=>'talks' ] )->middleware('auth');
 Route::get('/findpar', ['uses'=>'FindPartnerController@index', 'as'=>'findpar' ] )->middleware('auth');
 
+Route::post('/findPartner', ['uses'=>'FindPartnerController@findPartner', 'as'=>'findPartner' ] )->middleware('auth');
 
 Route::get('/', function () {
     return view('welcome');

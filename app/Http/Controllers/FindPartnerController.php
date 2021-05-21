@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Language;
+use App\Models\User;
 
 class FindPartnerController extends Controller
 {
+    
+    
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,17 +20,46 @@ class FindPartnerController extends Controller
      */
     public function index()
     {
+
+     $countries = [
+                  ['id'=>1,'name'=>'Страна1'],
+                  ['id'=>2,'name'=>'Страна2'],
+                  ['id'=>3,'name'=>'Страна3'],
+                  ['id'=>4,'name'=>'Страна4']
+
+                ];
+
+     
+       $lang = Language::All();
+       //dd($lang);
         
-		  $isAdm=false;
+	   $isAdm=false;
        if(Auth::check()){
         $user=Auth::user();
         if($user->role==1 || $user->role==0){ 
         $isAdm=$user->role; }                     
         //dd($user);
         }
-       return view('bigbang.findpar', ['isAdm'=>$isAdm]);     
+       
+       return view('bigbang.findpar', ['isAdm'=>$isAdm, 'countries'=>$countries, 'lang'=>$lang]);     
+       
 		
     }
+    
+    
+    
+    
+    public function findPartner(Request $request)
+    {
+        //dd($request->all());
+        //dd($request->input('sellang'));
+        
+        $idl=$request->input('sellang');
+        $rez=User::where('language_id', $idl)->get();
+        //dd($rez);
+        return view('bigbang.findrez', ['rez'=>$rez, 'lang'=>$idl]);     
+    }
+
 
     /**
      * Show the form for creating a new resource.
