@@ -20,6 +20,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+		'user_name',
+		'foto',
+		'birthday',
+		'language_id',
+		'women'
     ];
 
     /**
@@ -40,4 +45,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    
+    public function languages()
+    {
+      return $this->hasMany('App\Models\Language');
+    }
 }
