@@ -23,7 +23,7 @@
                <td>{{$r->name}}</td>
                <td>-</td>
 			   <td>-</td>
-               <td><a href="#">Отправить</a>&nbsp; </td>   
+               <td><a href="{{route('sendInvitation', $r->id)}}">Отправить</a>&nbsp; </td>   
                
            </tr>
           @empty

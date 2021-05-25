@@ -28,7 +28,7 @@
                     
                     @endif	
 
-                    <a href="talks">Общение</a>
+                    <a href="contacts">Общение</a>
                     <a href="findpar">Поиск партнера</a>
 					<a href="mprofile">Мой профиль</a>
 					

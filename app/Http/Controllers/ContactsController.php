@@ -7,14 +7,16 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Talk;
 use App\Models\Contact;
 
-class TalksController extends Controller
+
+
+class ContactsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
       $isAdm=false;
        if(Auth::check()){
@@ -24,46 +26,11 @@ class TalksController extends Controller
         //dd($user);
         }
       
-      $talks=Talk::where('master_id', $user->id)->where('user_id', $id)->get();    
-      return view('bigbang.talks', ['isAdm'=>$isAdm, 'talks'=>$talks]);     
+     $contacts=Contact::where('master_id', $user->id)->get();    
+      return view('bigbang.contacts', ['isAdm'=>$isAdm, 'contacts'=>$contacts]);     
     }
 
-    public function sendInv($id)
-    {
-      $isAdm=false;
-       if(Auth::check()){
-        $user=Auth::user();
-        if($user->role==1 || $user->role==0){ 
-        $isAdm=$user->role; }                     
-        //dd($user);
-        }
-        $isOk=false;
-        
-         $cnt=Contact::create(array(
-         'master_id'  => $user->id,
-         'user_id' => $id,
-         'status_id'   => 1
-         ));
-        
-        if($cnt->id){
-           $isOk=Talk::insert(array(
-           'master_id'  => $user->id,
-           'user_id' => $id,
-           'mess'   => 'Здравствуйте! Вы изучаете русский язык. Я являюсь носителем русского языка и учу английский. С целью изучения языков, приглашаю к сотрудничеству',
-           'listtalks_id'=>$cnt->id   
-          ));       
-        }
-        
-        if($isOk) { $o='Отправлено'; }
-        else {$o='Не отправлено';}
-       
-        return response($o);     
-    }
 
-    
-    
-    
-    
     /**
      * Show the form for creating a new resource.
      *

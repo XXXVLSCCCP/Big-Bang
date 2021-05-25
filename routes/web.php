@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/admin', ['uses'=>'Admin\IndexController@index', 'as'=>'admin' ] )->middleware('auth');
 Route::get('/mprofile', ['uses'=>'ProfileController@showProfile', 'as'=>'mprofile' ] )->middleware('auth');
-Route::get('/talks', ['uses'=>'TalksController@index', 'as'=>'talks' ] )->middleware('auth');
+Route::get('/talks/{id}', ['uses'=>'TalksController@index', 'as'=>'talks' ] )->middleware('auth');
+Route::get('/contacts', ['uses'=>'ContactsController@index', 'as'=>'contacts' ] )->middleware('auth');
 Route::get('/findpar', ['uses'=>'FindPartnerController@index', 'as'=>'findpar' ] )->middleware('auth');
+Route::get('/sendInvitation/{id}', ['uses'=>'TalksController@sendInv', 'as'=>'sendInvitation' ] )->middleware('auth');
 
 Route::post('/findPartner', ['uses'=>'FindPartnerController@findPartner', 'as'=>'findPartner' ] )->middleware('auth');
 
