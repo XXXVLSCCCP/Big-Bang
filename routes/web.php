@@ -18,7 +18,9 @@ Route::get('/mprofile', ['uses'=>'ProfileController@showProfile', 'as'=>'mprofil
 Route::get('/talks/{id}', ['uses'=>'TalksController@index', 'as'=>'talks' ] )->middleware('auth');
 Route::get('/contacts', ['uses'=>'ContactsController@index', 'as'=>'contacts' ] )->middleware('auth');
 Route::get('/findpar', ['uses'=>'FindPartnerController@index', 'as'=>'findpar' ] )->middleware('auth');
+
 Route::get('/sendInvitation/{id}', ['uses'=>'TalksController@sendInv', 'as'=>'sendInvitation' ] )->middleware('auth');
+Route::post('/sendMsg', ['uses'=>'TalksController@sendMsg', 'as'=>'sendMsg' ] )->middleware('auth');
 
 Route::post('/findPartner', ['uses'=>'FindPartnerController@findPartner', 'as'=>'findPartner' ] )->middleware('auth');
 

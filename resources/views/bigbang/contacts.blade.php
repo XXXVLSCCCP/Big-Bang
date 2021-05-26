@@ -17,11 +17,11 @@
              </tr>
          </thead>
          <tbody>
-          @forelse($contacts as $r)   
+          @forelse($contacts as $contact)   
            <tr>
-               <td>{{$r->id}}</td>
+               <td>{{$contact->id}}</td>
                <td> - - </td>
-               <td><a href="{{route('talks', $r->id)}}">Открыть</a>&nbsp; </td>  
+               <td><a href="{{route('talks', $contact->id)}}">Открыть</a>&nbsp; </td>  
                
            </tr>
           @empty

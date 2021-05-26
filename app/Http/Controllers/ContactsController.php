@@ -26,7 +26,7 @@ class ContactsController extends Controller
         //dd($user);
         }
       
-     $contacts=Contact::where('master_id', $user->id)->get();    
+     $contacts=Contact::where('user1_id', $user->id)->orWhere('user2_id', $user->id)->get();    
       return view('bigbang.contacts', ['isAdm'=>$isAdm, 'contacts'=>$contacts]);     
     }
 

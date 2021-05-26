@@ -9,19 +9,20 @@
        <h2>Сообщения </h2>
        
         
-       <table  width="500">
+       <table  width="700">
          <thead>
              <tr>
                  <th>От собеседника</th>
-                 <th>Мои</th>
+                 <th width="50%">Мои</th>
              </tr>
          </thead>
          <tbody>
+         
+         
           @forelse($talks as $r)   
-           <tr>
-               <td>--</td>
-               <td>{{$r->mess}}</td>
-               
+           <tr align="center">
+                 <td> @if($r->user1_id != $userlk_id ) {{$r->mess}} @endif</td>
+                 <td> @if($r->user1_id == $userlk_id ) {{$r->mess}} @endif</td>
            </tr>
           @empty
              <h3>нет данных</h3>
@@ -31,9 +32,10 @@
        </table>
 	   
     <br>
+    
     <hr>
-	
-	    <form action="#" method="post">
+	<form action="{{ route('sendMsg') }}" method="post">
+	 
         @csrf
         <table width="50%" cellspacing="0" cellpadding="4">
        
@@ -43,6 +45,9 @@
         </tr>
         
         </table>
+        <input class="form-control" type="text" name="contacts_id" value="{{ $contacts_id }}" hidden>
+         <input class="form-control" type="text" name="user1_id" value="{{ $user1_id }}" hidden>
+         <input class="form-control" type="text" name="user2_id" value="{{ $user2_id }}" hidden>
         <br>
         <button class="form-control" type="submit">Отправить</button>
     </form>

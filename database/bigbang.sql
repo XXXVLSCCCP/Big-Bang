@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 25 2021 г., 09:19
+-- Время создания: Май 26 2021 г., 06:39
 -- Версия сервера: 5.6.47
 -- Версия PHP: 7.4.5
 
@@ -29,11 +29,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `contacts` (
   `id` bigint(20) UNSIGNED NOT NULL COMMENT 'ИД',
-  `master_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ИД текущего юзера',
-  `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ИД юзера для переговоров',
   `status_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ИД статуса для переговоров',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `user1_id` int(11) NOT NULL DEFAULT '0' COMMENT 'ИД юзер1 ',
+  `user2_id` int(11) NOT NULL DEFAULT '0' COMMENT 'ИД юзер2 '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -108,12 +108,12 @@ CREATE TABLE `select_status` (
 
 CREATE TABLE `talks` (
   `id` bigint(20) UNSIGNED NOT NULL COMMENT 'ИД',
-  `master_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ИД текущего юзера',
-  `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ИД юзера для переговоров',
   `mess` text COLLATE utf8mb4_unicode_ci COMMENT 'Сообщение',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `listtalks_id` int(11) NOT NULL DEFAULT '0' COMMENT 'ИД переговоров'
+  `contacts_id` int(11) NOT NULL DEFAULT '0' COMMENT 'ИД контакта',
+  `user1_id` int(11) NOT NULL DEFAULT '0' COMMENT 'ИД юзер1 ',
+  `user2_id` int(11) NOT NULL DEFAULT '0' COMMENT 'ИД юзер2 '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -160,8 +160,6 @@ CREATE TABLE `users_languages` (
 --
 ALTER TABLE `contacts`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `selected_users_master_id_foreign` (`master_id`),
-  ADD KEY `selected_users_user_id_foreign` (`user_id`),
   ADD KEY `selected_users_status_id_foreign` (`status_id`);
 
 --
@@ -199,9 +197,7 @@ ALTER TABLE `select_status`
 -- Индексы таблицы `talks`
 --
 ALTER TABLE `talks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `talks_master_id_foreign` (`master_id`),
-  ADD KEY `talks_user_id_foreign` (`user_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `users`

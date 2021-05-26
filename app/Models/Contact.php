@@ -13,5 +13,5 @@ class Contact extends Model
     
     public $timestamps = true;
     
-    protected $fillable = ['master_id','user_id','status_id'];	
+    protected $fillable = ['user1_id','user2_id','status_id'];	
 }

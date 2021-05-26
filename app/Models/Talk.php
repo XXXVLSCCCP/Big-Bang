@@ -13,6 +13,6 @@ class Talk extends Model
     
     public $timestamps = true;
     
-    protected $fillable = ['master_id','user_id', 'mess', 'listtalks_id'];
+    protected $fillable = ['user1_id','user2_id', 'mess', 'contacts_id'];
 	
 }
