@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 26 2021 г., 06:39
+-- Время создания: Май 27 2021 г., 07:53
 -- Версия сервера: 5.6.47
 -- Версия PHP: 7.4.5
 
@@ -39,6 +39,19 @@ CREATE TABLE `contacts` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `countries`
+--
+
+CREATE TABLE `countries` (
+  `id` bigint(20) UNSIGNED NOT NULL COMMENT 'ИД',
+  `name` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Название',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `failed_jobs`
 --
 
@@ -59,6 +72,19 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `languages` (
+  `id` bigint(20) UNSIGNED NOT NULL COMMENT 'ИД',
+  `name` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Название',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `messengers`
+--
+
+CREATE TABLE `messengers` (
   `id` bigint(20) UNSIGNED NOT NULL COMMENT 'ИД',
   `name` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Название',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -119,6 +145,32 @@ CREATE TABLE `talks` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `userlangs`
+--
+
+CREATE TABLE `userlangs` (
+  `id` bigint(20) UNSIGNED NOT NULL COMMENT 'ИД',
+  `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ИД юзера',
+  `language_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ИД язык'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `userms`
+--
+
+CREATE TABLE `userms` (
+  `id` bigint(20) UNSIGNED NOT NULL COMMENT 'ИД',
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT 'ИД юзер ',
+  `messanger_id` bigint(10) NOT NULL COMMENT 'ИД мессенджер',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `users`
 --
 
@@ -136,19 +188,8 @@ CREATE TABLE `users` (
   `birthdate` date DEFAULT NULL COMMENT 'Дата рождения',
   `language_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ИД родной язык',
   `women` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Пол: 0=м, 1=ж',
-  `role` int(11) NOT NULL DEFAULT '0' COMMENT '1=адм,0=юзер'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `users_languages`
---
-
-CREATE TABLE `users_languages` (
-  `id` bigint(20) UNSIGNED NOT NULL COMMENT 'ИД',
-  `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ИД юзера',
-  `language_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ИД язык'
+  `role` int(11) NOT NULL DEFAULT '0' COMMENT '1=адм,0=юзер',
+  `country_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Страна'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -163,6 +204,12 @@ ALTER TABLE `contacts`
   ADD KEY `selected_users_status_id_foreign` (`status_id`);
 
 --
+-- Индексы таблицы `countries`
+--
+ALTER TABLE `countries`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -173,6 +220,12 @@ ALTER TABLE `failed_jobs`
 -- Индексы таблицы `languages`
 --
 ALTER TABLE `languages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `messengers`
+--
+ALTER TABLE `messengers`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -200,20 +253,26 @@ ALTER TABLE `talks`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `userlangs`
+--
+ALTER TABLE `userlangs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `users_languages_user_id_foreign` (`user_id`),
+  ADD KEY `users_languages_language_id_foreign` (`language_id`);
+
+--
+-- Индексы таблицы `userms`
+--
+ALTER TABLE `userms`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`),
   ADD KEY `users_language_id_foreign` (`language_id`);
-
---
--- Индексы таблицы `users_languages`
---
-ALTER TABLE `users_languages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `users_languages_user_id_foreign` (`user_id`),
-  ADD KEY `users_languages_language_id_foreign` (`language_id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -226,6 +285,12 @@ ALTER TABLE `contacts`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД';
 
 --
+-- AUTO_INCREMENT для таблицы `countries`
+--
+ALTER TABLE `countries`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД';
+
+--
 -- AUTO_INCREMENT для таблицы `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -235,6 +300,12 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT для таблицы `languages`
 --
 ALTER TABLE `languages`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД';
+
+--
+-- AUTO_INCREMENT для таблицы `messengers`
+--
+ALTER TABLE `messengers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД';
 
 --
@@ -256,27 +327,22 @@ ALTER TABLE `talks`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД';
 
 --
+-- AUTO_INCREMENT для таблицы `userlangs`
+--
+ALTER TABLE `userlangs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД';
+
+--
+-- AUTO_INCREMENT для таблицы `userms`
+--
+ALTER TABLE `userms`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД';
+
+--
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT для таблицы `users_languages`
---
-ALTER TABLE `users_languages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД';
-
---
--- Ограничения внешнего ключа сохраненных таблиц
---
-
---
--- Ограничения внешнего ключа таблицы `users_languages`
---
-ALTER TABLE `users_languages`
-  ADD CONSTRAINT `users_languages_language_id_foreign` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`),
-  ADD CONSTRAINT `users_languages_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
