@@ -16,7 +16,6 @@ class AddFieldUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('user_name', 60)->nullable()->comment('Имя');
             $table->string('foto',60)->nullable()->comment('Фото');
-			$table->integer('id_language')->default(0)->comment('ИД родной язык');
 			$table->date('birthdate')->format('d.m.Y')->nullable()->comment('Дата рождения');
             
         });
@@ -30,7 +29,6 @@ class AddFieldUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('id_language');
 			$table->dropColumn('user_name');
 			$table->dropColumn('foto');
 			$table->dropColumn('birthdate');
