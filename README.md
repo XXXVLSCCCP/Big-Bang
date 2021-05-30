@@ -1,3 +1,11 @@
+    Здесь начал integration api Laravel and React:
+    1. Сделал пример запроса с фронтенда React на Бекенд Laravel
+    Ccылка на проект с react где можно проверить соединения:https://github.com/XXXVLSCCCP/React.js-Big-Bang/tree/develop
+    4. Для теста был создан контроллер  ExampleController.php
+    2. В laravel делается соединения по api для регистрации.
+    3. Изменения были в паке api.php, RegisteredUserController.php, Models/User.php и в migration CreateUsersTable
+   
+    
     В первую очередь проверяем две вещи (в любом терминале, хоть даже в редакторе):
     php -v             установлен ли в системе php (без него вообще ничего не заработает)
     composer -v        установлен ли в системе composer (то же самое что npm, только для php)
@@ -26,15 +34,7 @@
     PS: react и фронтенд в папке resources, на файлы с именем bootstrap не обращайте внимания - это не всем известная
     библиотека, а часть laravel 
 
-
-
-
-
-
-
-
-
-
+    
 
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
