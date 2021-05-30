@@ -6,6 +6,8 @@
     3. Изменения были в паке api.php, RegisteredUserController.php, Models/User.php и в migration CreateUsersTable
    
     
+
+    
     В первую очередь проверяем две вещи (в любом терминале, хоть даже в редакторе):
     php -v             установлен ли в системе php (без него вообще ничего не заработает)
     composer -v        установлен ли в системе composer (то же самое что npm, только для php)
