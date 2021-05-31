@@ -43,12 +43,6 @@ class RegisteredUserController extends Controller
         $json = json_decode('[' . $request . ']');
         foreach($json as $request) {
 
-            $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => ['required', 'confirmed', Rules\Password::min(2)],
-        ]);
-
 
           $user = User::create([
             'name' => $request->name,

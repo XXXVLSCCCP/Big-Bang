@@ -19,7 +19,7 @@ class ExampleController extends Controller
     public function index() 
     { 
         // 
-
+        
         return response()->json(User::get(), 200);
 
         // return "все работает"

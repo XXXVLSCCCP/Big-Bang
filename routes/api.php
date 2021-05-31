@@ -23,6 +23,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  */
 
  Route::get('test', 'Api\ExampleController@index');
- Route::post('/create-users', 'Auth\RegisteredUserController@store');
-
+ 
+//  Route::group([
+//     'prefix' => 'auth'
+// ], function () {
+//     Route::post('login', 'AuthController@login');
+//     Route::post('registration', 'RegisteredUserController@store');
+//     Route::post('logout', 'AuthController@logout');
+//     Route::post('refresh', 'AuthController@refresh');
+//     Route::post('me', 'AuthController@me');
+// });
  
