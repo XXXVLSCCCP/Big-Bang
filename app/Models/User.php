@@ -27,8 +27,7 @@ class User extends Authenticatable
 		'foto',
 		'birthday',
 		'language_id',
-		'women',
-        'api_token'
+		'women'
     ];
 
     /**

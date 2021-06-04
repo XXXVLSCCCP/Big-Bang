@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 28 2021 г., 04:30
+-- Время создания: Июн 04 2021 г., 10:26
 -- Версия сервера: 5.6.47
--- Версия PHP: 7.4.5
+-- Версия PHP: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -170,7 +170,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (22, '2021_05_26_230835_create_messengers_table', 8),
 (23, '2021_05_26_232042_add_country_field_users_table', 9),
 (24, '2021_05_26_232637_create_user_messengers_table', 10),
-(25, '2021_05_26_233337_rn_users_languages_table', 11);
+(25, '2021_05_26_233337_rn_users_languages_table', 11),
+(26, '2019_12_14_000001_create_personal_access_tokens_table', 12),
+(27, '2021_06_03_220047_add_learn_language_field_users_table', 13),
+(28, '2021_06_03_225300_rn_column_messenger_id_userms_table', 14),
+(29, '2021_06_03_230442_rn_column_women_users_table', 15);
 
 -- --------------------------------------------------------
 
@@ -183,6 +187,31 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_id` int(10) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_id`, `tokenable_type`, `name`, `token`, `abilities`, `last_used_at`, `created_at`, `updated_at`) VALUES
+(11, 8, 'App\\Models\\User', 'authToken', '87ea0bacc3571e8867c98dd1fd69d96ff54b7bf80970bd8c1624ce8116e69700', '[\"*\"]', '2021-06-04 03:54:32', '2021-06-03 06:05:30', '2021-06-04 03:54:32');
 
 -- --------------------------------------------------------
 
@@ -249,10 +278,18 @@ CREATE TABLE `userlangs` (
 CREATE TABLE `userms` (
   `id` bigint(20) UNSIGNED NOT NULL COMMENT 'ИД',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT 'ИД юзер ',
-  `messanger_id` bigint(10) NOT NULL COMMENT 'ИД мессенджер',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `messenger_id` int(11) DEFAULT NULL COMMENT 'ИД мессенджера '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `userms`
+--
+
+INSERT INTO `userms` (`id`, `user_id`, `created_at`, `updated_at`, `messenger_id`) VALUES
+(1, 8, NULL, NULL, 1),
+(2, 8, NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -273,21 +310,23 @@ CREATE TABLE `users` (
   `foto` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Фото',
   `birthdate` date DEFAULT NULL COMMENT 'Дата рождения',
   `language_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'ИД родной язык',
-  `women` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Пол: 0=м, 1=ж',
   `role` int(11) NOT NULL DEFAULT '0' COMMENT '1=адм,0=юзер',
-  `country_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Страна'
+  `country_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Страна',
+  `learning_language_id` int(11) NOT NULL DEFAULT '0' COMMENT 'ИД Изучаемый язык',
+  `gender` tinyint(1) DEFAULT NULL COMMENT 'Пол: 1=м, 0=ж, null=не указан'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `user_name`, `foto`, `birthdate`, `language_id`, `women`, `role`, `country_id`) VALUES
-(1, 'nik1', 'nik1@email.com', NULL, '$2y$10$8nffm6L39dX/.B6O4fKy0eMR3S1pxGViuM78pawZtO9nrL7yCa4py', NULL, '2021-05-19 14:12:34', '2021-05-19 14:12:34', NULL, NULL, NULL, 2, 0, 0, 0),
-(3, 'adm', 'admin@email.com', NULL, '$2y$10$8nffm6L39dX/.B6O4fKy0eMR3S1pxGViuM78pawZtO9nrL7yCa4py', NULL, '2021-05-19 14:12:34', '2021-05-19 14:12:34', NULL, NULL, NULL, 1, 0, 1, 0),
-(5, 'nik2', 'nik2@email.com', NULL, '$2y$10$8nffm6L39dX/.B6O4fKy0eMR3S1pxGViuM78pawZtO9nrL7yCa4py', NULL, '2021-05-19 14:12:34', '2021-05-19 14:12:34', NULL, NULL, NULL, 2, 0, 0, 0),
-(6, 'nik3', 'nik3@email.com', NULL, '$2y$10$8nffm6L39dX/.B6O4fKy0eMR3S1pxGViuM78pawZtO9nrL7yCa4py', NULL, '2021-05-19 14:12:34', '2021-05-19 14:12:34', NULL, NULL, NULL, 3, 0, 0, 0),
-(7, 'тест1', 'test1@email.com', NULL, '$2y$10$7EpLxGCNEmxXrJUy6ofSxOGW4pHDNaYVQa38OSvbTuq.44Xlrc5iO', NULL, '2021-05-26 21:18:54', '2021-05-26 21:18:54', NULL, NULL, NULL, 0, 0, 0, 0);
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `user_name`, `foto`, `birthdate`, `language_id`, `role`, `country_id`, `learning_language_id`, `gender`) VALUES
+(1, 'nik1', 'nik1@email.com', NULL, '$2y$10$8nffm6L39dX/.B6O4fKy0eMR3S1pxGViuM78pawZtO9nrL7yCa4py', NULL, '2021-05-19 14:12:34', '2021-05-19 14:12:34', NULL, NULL, NULL, 2, 0, 0, 0, NULL),
+(3, 'adm', 'admin@email.com', NULL, '$2y$10$8nffm6L39dX/.B6O4fKy0eMR3S1pxGViuM78pawZtO9nrL7yCa4py', NULL, '2021-05-19 14:12:34', '2021-06-04 02:57:24', 'Федор', NULL, '2000-11-21', 1, 1, 1, 1, NULL),
+(5, 'nik2', 'nik2@email.com', NULL, '$2y$10$8nffm6L39dX/.B6O4fKy0eMR3S1pxGViuM78pawZtO9nrL7yCa4py', NULL, '2021-05-19 14:12:34', '2021-05-19 14:12:34', NULL, NULL, NULL, 2, 0, 0, 0, NULL),
+(6, 'nik3', 'nik3@email.com', NULL, '$2y$10$8nffm6L39dX/.B6O4fKy0eMR3S1pxGViuM78pawZtO9nrL7yCa4py', NULL, '2021-05-19 14:12:34', '2021-05-19 14:12:34', NULL, NULL, NULL, 3, 0, 0, 0, NULL),
+(7, 'тест1', 'test1@email.com', NULL, '$2y$10$7EpLxGCNEmxXrJUy6ofSxOGW4pHDNaYVQa38OSvbTuq.44Xlrc5iO', NULL, '2021-05-26 21:18:54', '2021-05-26 21:18:54', NULL, NULL, NULL, 0, 0, 0, 0, NULL),
+(8, '1111', 'nik1111@email.com', NULL, '$2y$10$/sqaNehntEWd24pBEuGVuO1k2f6htne9EIyZU4VUd/aZqyq6uLwta', NULL, '2021-06-02 16:14:53', '2021-06-04 03:17:04', 'name3', NULL, '2000-01-21', 1, 0, 1, 2, 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -336,6 +375,14 @@ ALTER TABLE `migrations`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Индексы таблицы `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_id_index` (`tokenable_id`);
 
 --
 -- Индексы таблицы `select_status`
@@ -397,7 +444,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT для таблицы `languages`
 --
 ALTER TABLE `languages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД', AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД', AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `messengers`
@@ -409,7 +456,13 @@ ALTER TABLE `messengers`
 -- AUTO_INCREMENT для таблицы `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT для таблицы `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT для таблицы `select_status`
@@ -433,13 +486,13 @@ ALTER TABLE `userlangs`
 -- AUTO_INCREMENT для таблицы `userms`
 --
 ALTER TABLE `userms`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД';
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ИД', AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

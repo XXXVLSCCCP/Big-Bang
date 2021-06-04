@@ -24,11 +24,10 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-/**
- * Тест api
- */
 
-// Route::get('test', 'Api\ExampleController@index');
-// Route::post('/create-users', 'Auth\RegisteredUserController@store');
 
- 
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/profile', ['uses'=>'Api\ProfileController@show', 'as'=>'profile' ] );
+    Route::post('/updprofile', ['uses'=>'Api\ProfileController@update', 'as'=>'updprofile' ] );
+    Route::delete('/delProfile/{id}', [ProfileController::class, 'destroy']);
+});
