@@ -23,3 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/profile', ['uses'=>'Api\ProfileController@show', 'as'=>'profile' ] );
+    Route::post('/updprofile', ['uses'=>'Api\ProfileController@update', 'as'=>'updprofile' ] );
+    Route::delete('/delProfile/{id}', [ProfileController::class, 'destroy']);
+});

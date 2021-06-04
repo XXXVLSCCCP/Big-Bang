@@ -9,7 +9,7 @@ class Userm extends Model
 {
     use HasFactory;
 	
-    protected $table = 'userm';
+    protected $table = 'userms';
     
     public $timestamps = true;
     

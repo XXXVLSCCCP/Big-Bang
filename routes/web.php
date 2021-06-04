@@ -42,6 +42,8 @@ Route::get('/adminst', ['uses'=>'Admin\IndexController@index', 'as'=>'adminst' ]
 Route::get('/adminstat', ['uses'=>'Admin\IndexController@index', 'as'=>'adminstat' ] )->middleware('auth');
 
 Route::get('/mprofile', ['uses'=>'ProfileController@showProfile', 'as'=>'mprofile' ] )->middleware('auth');
+Route::post('/updprofile', ['uses'=>'ProfileController@updProfile', 'as'=>'updprofile' ] )->middleware('auth');
+
 Route::get('/talks/{id}', ['uses'=>'TalksController@index', 'as'=>'talks' ] )->middleware('auth');
 Route::get('/contacts', ['uses'=>'ContactsController@index', 'as'=>'contacts' ] )->middleware('auth');
 Route::get('/findpar', ['uses'=>'FindPartnerController@index', 'as'=>'findpar' ] )->middleware('auth');
