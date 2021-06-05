@@ -16,7 +16,7 @@ class Language extends Model
     protected $fillable = ['name'];
 
    
-    public function users(){
+    public function user(){
         return $this-hasMany(User::class, 'language_id');
     }
     
