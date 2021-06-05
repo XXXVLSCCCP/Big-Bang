@@ -49,9 +49,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    
-    public function languages()
+    /*
+    public function language()
     {
       return $this->hasMany('App\Models\Language');
+    }
+	*/
+	
+	public function language(){
+      
+	  return $this->hasOne(Language::class, 'language_id');
+	  //return $this->hasOne('App\Models\Language');
+	   
     }
 }
