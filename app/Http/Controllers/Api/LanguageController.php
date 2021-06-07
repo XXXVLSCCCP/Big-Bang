@@ -19,6 +19,10 @@ class LanguageController extends Controller
     {
 		return LanguageResource::collection(Language::paginate(10));
     }
+    public function listOfLanguages()
+    {
+		return LanguageResource::collection(Language::All());
+    }
 
     /**
      * Show the form for creating a new resource.
