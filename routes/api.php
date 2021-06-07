@@ -28,8 +28,12 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 
 
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/profile', ['uses'=>'Api\ProfileController@show', 'as'=>'profile' ] );
+    Route::get('/profile/{id}', ['uses'=>'Api\ProfileController@show', 'as'=>'profile' ] );
     Route::post('/updprofile', ['uses'=>'Api\ProfileController@update', 'as'=>'updprofile' ] );
     Route::delete('/delProfile/{id}', [ProfileController::class, 'destroy']);
+	
+	Route::get('/countries', ['uses'=>'Api\CountryController@index', 'as'=>'countries' ] );
+	Route::get('/languages', ['uses'=>'Api\LanguageController@index', 'as'=>'languages' ] );
 });
