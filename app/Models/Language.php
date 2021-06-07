@@ -15,9 +15,17 @@ class Language extends Model
     
     protected $fillable = ['name'];
 
-   
+   /*
     public function user(){
         return $this-hasMany(User::class, 'language_id');
     }
+	
+	 public function usersNativeLang(){
+        return $this-belongsTo(User::class, 'id','language_id');
+    }
     
+	 public function usersLearnLang(){
+        return $this-belongsTo(User::class, 'id','learning_language_id');
+    }
+	*/
 }
