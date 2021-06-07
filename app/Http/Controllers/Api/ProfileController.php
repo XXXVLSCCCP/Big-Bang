@@ -86,37 +86,38 @@ class ProfileController extends Controller
 
 	public function update(ProfileStoreRequest $request ){
 	     
-		$isOk=true;
-		
+		$isOk=false;
+		$msg='error';
+		$msg_kod=500;
 		try {
-              $id=Auth::user()->id;
-			  $profile = User::find($id);
+     	      $profile = Auth::user();
 			  //dd($profile);
 			  //dd($request);
               if(!$profile){
-                 return response('Профиль не найден');
+		         $msg='Not found';
+			     $msg_kod=404;                 
 	            }
-		
-			  $profile->user_name = $request->user_name;
-			  $profile->birthdate = $request->birthdate;
-			  $profile->language_id = $request->language_id;
-			  $profile->country_id = $request->country_id;
-			  $profile->learning_language_id = $request->learning_language_id;
-			  $profile->gender = $request->gender;
+		      else {
+			    $profile->user_name = $request->user_name;
+			    $profile->birthdate = $request->birthdate;
+			    $profile->language_id = $request->language_id;
+			    $profile->country_id = $request->country_id;
+			    $profile->learning_language_id = $request->learning_language_id;
+			    $profile->gender = $request->gender;
 			 
-			  $profile->save();
-			  $o='success';
-			  $ko=200;
-           
+			    $profile->save();
+			    $msg='success';
+			    $msg_kod=200;
+              }
 	         }
 	    catch (\Exception $e){ 
-		      $o='fail';
-			  $ko=500;
+		      $msg='fail';
+			  $msg_kod=500;
 			  }
 	
 	return response()->json([
-            'message' => $o
-        ],$ko);
+            'message' => $msg
+        ],$msg_kod);
 	}	
 	
     /**
