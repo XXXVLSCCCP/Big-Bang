@@ -20,7 +20,12 @@ class CountryController extends Controller
     {
 		 return CountryResource::collection(Country::paginate(10));
     }
+    public function listOfCountries()
+    {
+		 return CountryResource::collection(Country::all());
+    }
 
+	
     /**
      * Show the form for creating a new resource.
      *
