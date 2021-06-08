@@ -13,8 +13,9 @@ use App\Models\User;
 use App\Http\Requests\ProfileStoreRequest;
 //use App\Http\Resources\UserResource;
 use App\Http\Resources\ProfileResource;
+use App\Http\Controllers\Api\BaseController as BaseController;
 
-class ProfileController extends Controller
+class ProfileController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -58,11 +59,9 @@ class ProfileController extends Controller
     {
 	   $user = User::find($id);
        if(!$user){
-		  return response()->json([
-          'message'=>'Profile Not Found.'
-          ],404);
+	      return $this->sendError('Profile not found.');
         }
-    return new ProfileResource($user);
+	return $this->sendResponse(new ProfileResource($user), 'success');
     }
 
     /**
@@ -94,8 +93,9 @@ class ProfileController extends Controller
 			  //dd($profile);
 			  //dd($request);
               if(!$profile){
-		         $msg='Not found';
-			     $msg_kod=404;                 
+		         $msg='Profile not found';
+			     $msg_kod=404;
+                 $success=false;
 	            }
 		      else {
 			    $profile->user_name = $request->user_name;
@@ -108,16 +108,16 @@ class ProfileController extends Controller
 			    $profile->save();
 			    $msg='success';
 			    $msg_kod=200;
+				$success=true;
               }
 	         }
 	    catch (\Exception $e){ 
 		      $msg='fail';
 			  $msg_kod=500;
+			  $success=false;
 			  }
 	
-	return response()->json([
-            'message' => $msg
-        ],$msg_kod);
+	return $this->sendResponse($profile->toArray(), $msg, $msg_kod, $success );
 	}	
 	
     /**
