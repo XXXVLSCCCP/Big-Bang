@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Language;
 use App\Models\User;
+use App\Models\Country;
 
 class FindPartnerController extends Controller
 {
@@ -21,28 +22,32 @@ class FindPartnerController extends Controller
     public function index()
     {
 
-     $countries = [
+       /*
+	   $countries = [
                   ['id'=>1,'name'=>'Страна1'],
                   ['id'=>2,'name'=>'Страна2'],
                   ['id'=>3,'name'=>'Страна3'],
                   ['id'=>4,'name'=>'Страна4']
 
                 ];
-
-     
+       */
+	   
+       $countries=Country::All();
        $lang = Language::All();
        //dd($lang);
         
 	   $isAdm=false;
-       if(Auth::check()){
+       
+	   /*
+	   if(Auth::check()){
         $user=Auth::user();
         if($user->role==1 || $user->role==0){ 
         $isAdm=$user->role; }                     
         //dd($user);
         }
-       
+       */
+	   
        return view('bigbang.findpar', ['isAdm'=>$isAdm, 'countries'=>$countries, 'lang'=>$lang]);     
-       
 		
     }
     

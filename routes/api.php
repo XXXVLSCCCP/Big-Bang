@@ -39,5 +39,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 	Route::get('/listOfCountries', ['uses'=>'Api\CountryController@listOfCountries', 'as'=>'listOfCountries' ] );
 	Route::get('/listOfLanguages', ['uses'=>'Api\LanguageController@listOfLanguages', 'as'=>'listOfLanguages' ] );
-
+    
+	Route::post('/findPartnerProfile', ['uses'=>'Api\FindPartnerController@findPartnerProfile', 'as'=>'findPartnerProfile' ] );
+	Route::post('/findPartnerForm', ['uses'=>'Api\FindPartnerController@findPartnerForm', 'as'=>'findPartnerForm' ] );
+	
 });
