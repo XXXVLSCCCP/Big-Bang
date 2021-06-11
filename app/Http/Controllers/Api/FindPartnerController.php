@@ -20,6 +20,7 @@ class FindPartnerController extends BaseController
 public function findPartnerProfile(Request $request)
     {
 		$rez=false;
+		$msg= ""; $msg_kod=500; $success=false;
         $user=Auth::user();
         if ($user) {        
 
@@ -27,11 +28,11 @@ public function findPartnerProfile(Request $request)
 			$ll=(int)$user->learning_language_id;
 			
 			if(!empty($ll) && empty($ln) ) {
-				$msg= "поиск 1 Список изучающих такой же язык: Изучаемый язык из профиля юзера = Изучаемый язык из профиля партнера   ";
+				//$msg= "поиск 1 Список изучающих такой же язык: Изучаемый язык из профиля юзера = Изучаемый язык из профиля партнера   ";
 				$rez=User::where('learning_language_id', $ll)->get();		
 			} 
 			elseif (!empty($ll) && !empty($ln) ) {
-				$msg= "поиск 2 Список изучающих и носителей языка перекрестный: Изучаемый язык из И Родной Язык из профиля юзера  => Изучаемый язык И Родной Язык из профиля партнера   ";
+				//$msg= "поиск 2 Список изучающих и носителей языка перекрестный: Изучаемый язык из И Родной Язык из профиля юзера  => Изучаемый язык И Родной Язык из профиля партнера   ";
 				$rez=User::where('language_id', $ll)->where('learning_language_id', $ln)->get();
 			} 
 		
@@ -59,8 +60,8 @@ public function findPartnerForm(Request $request)
     {
         //dd($request->all());
         //dd($request->input('sellang'));
-		
 		$rez=false;
+		$msg= ""; $msg_kod=500; $success=false;
         $user=Auth::user();
         if ($user) {        
         
@@ -69,15 +70,15 @@ public function findPartnerForm(Request $request)
         $cl=(int)$request->input('in_country_id');
 		
 		if(!empty($ll) && empty($ln) && empty($cl) ) {
-			$msg= "поиск 1: Изучаемый язык из запроса = Изучаемый язык из профиля партнера   ";
+			//$msg= "поиск 1: Изучаемый язык из запроса = Изучаемый язык из профиля партнера   ";
 			$rez=User::where('learning_language_id', $ll)->get();
 		} 
 		elseif (!empty($ll) && !empty($ln) && empty($cl) ) {
-			$msg= "поиск 2: Изучаемый язык из И Родной Язык из запроса  => Изучаемый язык И Родной Язык из профиля партнера   ";
+			//$msg= "поиск 2: Изучаемый язык из И Родной Язык из запроса  => Изучаемый язык И Родной Язык из профиля партнера   ";
 			$rez=User::where('language_id', $ll)->where('learning_language_id', $ln)->get();
 		} 
 		elseif (!empty($ll) && !empty($ln) && !empty($cl) ) {
-			$msg= "поиск 3: Изучаемый язык из И Родной Язык И Страна из запроса  => Изучаемый язык И Родной Язык И Страна из профиля партнера   ";
+			//$msg= "поиск 3: Изучаемый язык из И Родной Язык И Страна из запроса  => Изучаемый язык И Родной Язык И Страна из профиля партнера   ";
 			$rez=User::where('language_id', $ll)->where('learning_language_id', $ln)->where('country_id', $cl) ->get();
 		}
   
