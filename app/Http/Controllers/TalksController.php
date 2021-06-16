@@ -19,8 +19,7 @@ class TalksController extends Controller
       $isAdm=false;
        if(Auth::check()){
         $user=Auth::user();
-        if($user->role==1 || $user->role==0){ 
-        $isAdm=$user->role; }                     
+        $isAdm=$user->role; 
         //dd($user);
         }
 
@@ -32,15 +31,14 @@ class TalksController extends Controller
 
     public function sendInv($id)
     {
-      $isAdm=false;
-       if(Auth::check()){
-        $user=Auth::user();
-        if($user->role==1 || $user->role==0){ 
-        $isAdm=$user->role; }                     
-        //dd($user);
-        }
-        $isOk=false;
-        
+       $role=0;
+	   $isAdm=false;
+	   $isOk=false;
+		
+	   $user=Auth::user();
+	   //dd($user);
+       if ($user) {    
+         $role=$user->role;
          $cnt=Contact::create(array(
          'user1_id'  => $user->id,
          'user2_id' => $id,
@@ -55,11 +53,12 @@ class TalksController extends Controller
            'contacts_id'=>$cnt->id   
           ));       
         }
-        
+       }
+	   
         if($isOk) { $o='Отправлено'; }
         else {$o='Не отправлено';}
        
-        return response($o);     
+    return response($o);     
     }
 
 
@@ -69,14 +68,14 @@ class TalksController extends Controller
         //dd($request->all());
         //dd($request->input('contact_id'));
 
-        $isAdm=false;
-       if(Auth::check()){
-        $user=Auth::user();
-        if($user->role==1 || $user->role==0){ 
-        $isAdm=$user->role; }                     
-        //dd($user);
-        }
-        $isOk=false;
+       $role=0;
+	   $isAdm=false;
+	   $isOk=false;
+       
+	   $user=Auth::user();
+	   //dd($user);
+       if ($user) {    
+         $role=$user->role;
         
         $contacts_id=$request->input('contacts_id');
         $user1_id=$request->input('user1_id');
@@ -91,7 +90,7 @@ class TalksController extends Controller
            'contacts_id'=>$contacts_id
           ));       
         }
-        
+       } 
         if($isOk) { $o='Отправлено'; }
         else {$o='Не отправлено';}
 
@@ -100,7 +99,6 @@ class TalksController extends Controller
     }
     
     
-   
     
     
     /**

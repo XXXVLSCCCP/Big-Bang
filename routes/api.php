@@ -43,4 +43,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::post('/findPartnerProfile', ['uses'=>'Api\FindPartnerController@findPartnerProfile', 'as'=>'findPartnerProfile' ] );
 	Route::post('/findPartnerForm', ['uses'=>'Api\FindPartnerController@findPartnerForm', 'as'=>'findPartnerForm' ] );
 	
+	Route::get('/sendInvitation/{id}', ['uses'=>'Api\TalksController@sendInv', 'as'=>'sendInvitation' ] );
+	
 });
